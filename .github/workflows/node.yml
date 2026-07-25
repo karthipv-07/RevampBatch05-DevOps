@@ -1,11 +1,24 @@
 name: Node Basic Pipeline
 
 on:
-  push:
-    branches: ["main"]
-  pull_request:
-    branches: ["main"]
   workflow_dispatch: 
+    inputs:
+      environment:
+        description: "Choose the environment to run"
+        required: true
+        default: "development"
+        type: choice
+        options:
+          - development
+          - production
+      port:
+        description: "Choose the port"
+        required: true
+        default: "8080"
+        type: choice
+        options:
+          - 8080
+          - 5000
 
 jobs:
   Node:
@@ -35,7 +48,7 @@ jobs:
           
       - name: Run application
         run: |
-          node app.js production &
+          node app.js ${{ github.event.inputs.environment }} &
           sleep 5
           curl http://localhost:5000
           curl http://localhost:5000/health
