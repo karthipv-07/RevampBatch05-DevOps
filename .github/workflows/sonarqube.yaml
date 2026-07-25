@@ -18,5 +18,7 @@ jobs:
           args: >
             -Dsonar.projectKey=NodeApp
             -Dsonar.sources=.
-            -Dsonar.host.url=http://localhost:9000
-            -Dsonar.token=sqp_15513e815a9effe26a07f1b4f176fe714adee433
+            -Dsonar.qualitygate.wait=true
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
