@@ -23,7 +23,7 @@ on:
 jobs:
   Node:
     runs-on: [self-hosted, wsl-ubuntu]
-    environment: prod
+    environment: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
 
     steps:
       - name: Checkout code
