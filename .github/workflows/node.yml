@@ -29,6 +29,9 @@ jobs:
           echo "PORT=${{ vars.DEV_PORT }} >> .env.development
           echo "APP=${{ vars.PROD_APP }} >> .env.production
           echo "PORT=${{ vars.PROD_PORT }} >> .env.production
+          ls
+          cat .env.development
+          cat .env.production
           
       - name: Run application
         run: |
