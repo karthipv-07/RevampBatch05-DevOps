@@ -1,0 +1,23 @@
+name: Sample Pipeline
+
+on:
+  workflow_dispatch: 
+  # push:
+  #   branches: ["main"]
+
+jobs:
+  build:
+    runs-on: [self-hosted, wsl-ubuntu]
+
+    steps:
+      - name: Build step
+        run: echo "Build pipeline"
+        
+  deploy:
+    needs: build
+    runs-on: [self-hosted, wsl-ubuntu]
+
+    steps:
+      - name: Deploy step
+        run: echo "Deploy pipeline"
+    

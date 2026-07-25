@@ -1,0 +1,57 @@
+name: Node Basic Pipeline
+
+on:
+  workflow_dispatch: 
+    inputs:
+      environment:
+        description: "Choose the environment to run"
+        required: true
+        default: "development"
+        type: choice
+        options:
+          - development
+          - production
+      port:
+        description: "Choose the port"
+        required: true
+        default: "8080"
+        type: choice
+        options:
+          - 8080
+          - 5000
+
+jobs:
+  Node:
+    runs-on: [self-hosted, wsl-ubuntu]
+    environment: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Node Setup
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Create env file
+        run: |
+          echo "APP=${{ vars.DEV_APP }}" >> .env.development
+          echo "PORT=${{ vars.DEV_PORT }}" >> .env.development
+          echo "APP=${{ vars.PROD_APP }}" >> .env.production
+          echo "PORT=${{ vars.PROD_PORT }}" >> .env.production
+          # ls
+          # cat .env.development
+          # cat .env.production
+          
+      - name: Run application
+        run: |
+          node app.js ${{ github.event.inputs.environment }} &
+          sleep 5
+          curl http://localhost:5000
+          curl http://localhost:5000/health
+          pkill -f "node app.js"      
+        

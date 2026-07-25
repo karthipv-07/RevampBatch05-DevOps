@@ -1,0 +1,36 @@
+name: Matrix Pipeline
+
+on:
+  # push:
+  #   branches: ["main"]
+  # pull_request:
+  #   branches: ["main"]
+  workflow_dispatch: 
+
+jobs:
+  Node:
+    runs-on: [self-hosted, wsl-ubuntu]
+    strategy:
+      matrix:
+        node-version: [24,26]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Node Setup
+        uses: actions/setup-node@v7
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run application
+        run: |
+          node app.js &
+          sleep 5
+          curl http://localhost:8080
+          curl http://localhost:8080/health
+          pkill -f "node app.js"      
+        
