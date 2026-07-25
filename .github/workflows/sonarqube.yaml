@@ -1,0 +1,22 @@
+name: SonarQube pipeline
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  sonarqube:
+    runs-on: [self-hosted, wsl-ubuntu]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Run Sonarqube analysis
+        uses: SonarSource/sonarqube-scan-action@<action version>
+        with:
+          args: >
+            -Dsonar.projectKey=NodeApp
+            -Dsonar.sources=.
+            -Dsonar.host.url=http://localhost:9000
+            -Dsonar.token=sqp_15513e815a9effe26a07f1b4f176fe714adee433
