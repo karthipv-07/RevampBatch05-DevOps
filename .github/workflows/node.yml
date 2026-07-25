@@ -23,6 +23,7 @@ on:
 jobs:
   Node:
     runs-on: [self-hosted, wsl-ubuntu]
+    environment: prod
 
     steps:
       - name: Checkout code
