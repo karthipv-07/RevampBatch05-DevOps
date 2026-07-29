@@ -1,1 +1,4 @@
-
+name:pipeline for sonar and docker
+    on: push to main
+       pull request to sonrqube
+  jobs: 
